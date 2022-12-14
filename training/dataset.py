@@ -217,8 +217,8 @@ class ImageFolderDataset(Dataset):
                     useful_folder_list = set(folder_list).intersection(valid_folder_list)
                     folder_list = sorted(list(useful_folder_list))
             elif data_camera_mode == 'shapenet_motorbike':
-                split_name = './3dgan_data_split/shapenet_motorbike/%s.txt' % (split)
-                print('==> use ts shapenet motorbike split %s' % (split))
+                split_name = './3dgan_data_split/sf_ship/%s.txt' % (split)
+                print('==> use sf ship split %s' % (split))
                 if split != 'all':
                     valid_folder_list = []
                     with open(split_name, 'r') as f:
@@ -300,11 +300,11 @@ class ImageFolderDataset(Dataset):
             if self.data_camera_mode == 'shapenet_car' or self.data_camera_mode == 'shapenet_chair' \
                     or self.data_camera_mode == 'renderpeople' or self.data_camera_mode == 'shapenet_motorbike' \
                     or self.data_camera_mode == 'ts_house' or self.data_camera_mode == 'ts_animal':
-                if not os.path.exists(os.path.join(self.camera_root, syn_idx, obj_idx, 'rotation.npy')):
-                    print('==> not found camera root')
+                if not os.path.exists(os.path.join(self.camera_root, obj_idx, 'rotation.npy')):
+                    print(f'==> not found camera root {self.camera_root}, {syn_idx}, {obj_idx}')
                 else:
-                    rotation_camera = np.load(os.path.join(self.camera_root, syn_idx, obj_idx, 'rotation.npy'))
-                    elevation_camera = np.load(os.path.join(self.camera_root, syn_idx, obj_idx, 'elevation.npy'))
+                    rotation_camera = np.load(os.path.join(self.camera_root, obj_idx, 'rotation.npy'))
+                    elevation_camera = np.load(os.path.join(self.camera_root, obj_idx, 'elevation.npy'))
                     condinfo[0] = rotation_camera[img_idx] / 180 * np.pi
                     condinfo[1] = (90 - elevation_camera[img_idx]) / 180.0 * np.pi
         else:
